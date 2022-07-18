@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function(){
+            //alert('DOM ready');
+            // accedo al element del DOM por su id.
+            document.getElementById('p_1').textContent = '<strong>Hola!</strong>';
+            document.getElementById('p_1').innerHTML = '<strong>Hola!</strong>';
+            // eventos
+            document.getElementById('btn_1').onclick = function(){
+                alert('Hola!');
+            }
+            document.getElementById('btn_2').onclick = function(){
+                let nombre = document.getElementById('inp_nombre').value;
+                console.log('Hola '+nombre+' ...');
+                console.log(`Hola ${nombre} ...`)
+            }
+            let un_array = [];
+            un_array.push(1);
+            un_array.push(3);
+            un_array.push(2);
+            console.log(un_array);
+            un_array.forEach(function(elemento, pos){
+                console.log(`${elemento} pos ${pos}`);
+            });
+            // objetos javascript
+            let usuarios = [];
+            let un_usuario = {nombre:"juan",apellido:"perez"};
+            let un_usuario2 = {nombre:"ana",apellido:"gomez"};
+            usuarios.push(un_usuario);
+            usuarios.push(un_usuario2); 
+            console.log(usuarios);
+            usuarios.forEach(function(usuario, pos){
+                console.log(`${usuario.nombre} ${usuario.apellido}`);
+            });
+
+            // manejo de exceptions
+            let nombre = "juan";
+            let apellido = "perez";
+            try{
+                if(!nombre){
+                    throw 'Nombre requerido';
+                }
+                if(apellido == ""){
+                    throw 'Apellido requerido';
+                }
+
+                //entradas están validas
+                console.log('Código continua...');
+            }
+            catch(e){
+                console.log(e);
+                console.log('bloque catch...');
+            }
+
+
+        }
+
+    </script>
+</head>
+<body>
+<h1>Ejemplo 1</h1>   
+<h2>Ejemplo 2</h2>
+<p id="p_1">Hola</p>
+<input type="button" id="btn_1" value="Saludar">
+<p>
+    <input type="text" id="inp_nombre" placeholder="Ingresa tu nombre">
+    <input type="button" id="btn_2" value="Ingresar">
+</p>
+</body>
+</html>

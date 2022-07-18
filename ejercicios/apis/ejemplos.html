@@ -1,0 +1,19 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function mostrar_datos(datos){
+            document.getElementById('p_lat').innerHTML = datos.coord.lat;
+        }
+        fetch('http://api.openweathermap.org/data/2.5/weather/?appid=e62b2530fdb5f4ba3559c07c8634e5c7&lang=es&units=metric&q=montevideo,uy')
+        .then(respuesta => respuesta.json())
+        .then(datos_json => mostrar_datos(datos_json))
+    </script>
+</head>
+<body>
+<p id="p_lat"></p>    
+</body>
+</html>

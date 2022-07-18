@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function mostrar_resultado(data){
+            document.getElementById('p_temp_actual').textContent = `La temperatura actual es ${data.main.temp}`;
+            document.getElementById('p_temp_min').textContent = `La temperatura m&iacute;nima es ${data.main.temp}`;
+            document.getElementById('p_temp_max').innerHTML = `La temperatura m&aacute;xima es <strong>${data.main.temp}</strong>`;
+            document.getElementById('h_temp_desc').innerHTML = `${data.weather[0].description}`;
+            let icono = `http://openweathermap.com/img/w/${data.weather[0].icon}.png`;
+            document.getElementById('img_tiempo').setAttribute('src',icono);
+        }
+        window.onload = function(){
+            document.getElementById('btn_consultar').onclick = function(){
+                try{
+                    let ciudad = document.getElementById('inp_ciudad').value;
+                    let pais    = document.getElementById('sel_pais').value;
+                    if(!ciudad){
+                        throw 'Ingrese ciudad para continuar';
+                    }
+                    if(!pais){
+                        throw 'Seleccione pais para continuar';
+                    }
+                    //listo para invocar API.
+                    // 3-invocar API para consultar pronóstico con ese país, ciudad.
+                    let url = `http://api.openweathermap.org/data/2.5/weather/?appid=e62b2530fdb5f4ba3559c07c8634e5c7&lang=es&units=metric&q=${ciudad},${pais}`;
+                    fetch(url)
+                    .then(respuesta => respuesta.json())
+                    .then(data => mostrar_resultado(data))
+                    
+                }
+                catch(e){
+                    alert(e);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Pr&aacute;ctico 1</h1>
+<form action="">
+    <p>Ciudad:</p>
+    <input type="text" id="inp_ciudad">
+    <p>Pa&iacute;s:</p>
+    <select id="sel_pais">
+        <option value="">Seleccione un pa&iacute;s</option>
+        <option value="UY">Uruguay</option>
+        <option value="AR">Argentina</option>
+    </select>
+    <p><input type="button" id="btn_consultar" value="Consultar"></p>
+</form>
+<p id="p_temp_actual"></p>
+<h3 id="h_temp_desc"></h3>
+<p id="p_temp_min"></p>
+<p id="p_temp_max"></p>
+<p><img src="" alt="" id="img_tiempo"></p>
+</body>
+</html>

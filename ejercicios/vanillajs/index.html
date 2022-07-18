@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function(){
+            let lista_clientes = [];
+            //dom ready.
+            document.getElementById('btn_registrar').onclick = function(){
+                let nombre = document.getElementById('inp_nombre').value;
+                let apellido = document.getElementById('inp_apellido').value;
+                let email = document.getElementById('inp_email').value;
+                try{
+                    if(!nombre){
+                        throw 'Nombre requerido para continuar';
+                    }
+                    if(apellido == ""){
+                        throw 'Apellido requerido para continuar';
+                    }
+                    if(!email){
+                        throw 'Email requerido para continuar';
+                    }
+                    //validar el formato algo@algo.com
+                    let cliente = {nom:nombre,ape:apellido,ema:email};
+                    lista_clientes.push(cliente);
+                    let ul = document.getElementById('ul_lista_clientes');
+                    ul.innerHTML = '';
+                    //recorrer lista de clientes.
+                    lista_clientes.forEach(function(cli, index){
+                        ul.innerHTML += `<li>${cli.nom} ${cli.ape} ${cli.ema}</li>`;
+                    });
+                }
+                catch(e){
+                    alert(e);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Pr&aacute;ctico 1</h1>
+    <p>Nombre:</p>
+    <input type="text" id="inp_nombre">
+    <p>Apellido:</p>
+    <input type="text" id="inp_apellido">
+    <p>Email:</p>
+    <input type="text" id="inp_email">
+    <p><input type="button" id="btn_registrar" value="Registrar"></p>    
+    <ul id="ul_lista_clientes"></ul>
+</body>
+
+</html>
