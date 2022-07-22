@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function mostrar_resultado(data, destino){
+            let valor = data.rates[destino];
+            let base  = data.base;
+            document.getElementById('h_resultado').innerHTML = `1 ${base} es igual a ${valor} ${destino}`;
+        }
+        window.onload = function () {
+            document.getElementById('btn_consultar').onclick = function () {
+                try {
+                    let origen = document.getElementById('sel_origen').value;
+                    let destino = document.getElementById('sel_destino').value;
+                    if (!origen) {
+                        throw 'Seleccione moneda origen para continuar';
+                    }
+                    if (!destino) {
+                        throw 'Seleccione moneda destino para continuar';
+                    }
+                    if (origen == destino) {
+                        throw 'Moneda origen y destino deben ser diferentes';
+                    }
+                    // todo ok
+                    // request API de cotizaciones.
+                    let url = `https://api.exchangerate-api.com/v4/latest/${origen}`;
+                    fetch(url)
+                    .then(respuesta => respuesta.json())
+                    .then(data => mostrar_resultado(data, destino))
+                }
+                catch(e){
+                    alert(e);
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Pr&aacute;ctico 3 </h1>
+    Cotizar de
+    <select id="sel_origen">
+        <option value="">Seleccione una moneda</option>
+        <option value="USD">D&oacute;lar</option>
+        <option value="UYU">Peso Uruguayo</option>
+        <option value="ARS">Peso Argentino</option>
+    </select>
+    a
+    <select id="sel_destino">
+        <option value="">Seleccione una moneda</option>
+        <option value="USD">D&oacute;lar</option>
+        <option value="UYU">Peso Uruguayo</option>
+        <option value="ARS">Peso Argentino</option>
+    </select>
+    <p><input type="button" id="btn_consultar" value="Cotizar"></p>
+    <h1 id="h_resultado"></h1>
+</body>
+
+</html>

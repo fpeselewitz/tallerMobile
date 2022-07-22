@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function mostrar_resultado(data){
+            //console.log(data);
+            let resultado = document.getElementById('div_resultado');
+            let html_content ='';
+            resultado.innerHTML = '';
+            // iteramos con foreach sobre clave list para obtener los pronósticos.
+            data.list.forEach(function(pronostico){
+                html_content = `<p>La temperatura actual es ${pronostico.temp.day}</p>`;
+                html_content += `<p>La temperatura m&iacute;nima es ${pronostico.temp.min}</p>`;
+                html_content += `<p>La temperatura m&aacute;xima es ${pronostico.temp.max}</p>`;
+                html_content += `<h3>${pronostico.weather[0].description}</h3>`;
+                let icono = `http://openweathermap.com/img/w/${pronostico.weather[0].icon}.png`;
+                html_content += `<img src="${icono}">`;
+                html_content += '<hr>';
+                resultado.innerHTML +=html_content;
+            });
+        }
+        window.onload = function () {
+            document.getElementById('btn_consultar').onclick = function () {
+                try {
+                    let ciudad = document.getElementById('inp_ciudad').value;
+                    let pais = document.getElementById('inp_pais').value;
+                    let cantidad = document.getElementById('inp_cantidad').value;
+                    if (!ciudad) {
+                        throw 'Ciudad requerida para continuar';
+                    }
+                    if (!pais) {
+                        throw 'Pais requerido para continuar';
+                    }
+                    if (!cantidad) {
+                        throw 'Cantidad requerida para continuar';
+                    }
+                    if(isNaN(cantidad)){
+                        throw 'Cantidad solo digitos';
+                    }
+                    //todo ok.
+                    //request a API con cantidad de días.
+                    let url = `http://api.openweathermap.org/data/2.5/forecast/daily/?appid=e62b2530fdb5f4ba3559c07c8634e5c7&lang=es&units=metric&q=${ciudad},${pais}&cnt=${cantidad}`;
+                    fetch(url)
+                    .then(respuesta => respuesta.json())
+                    .then(data => mostrar_resultado(data))
+                }
+                catch (e) {
+                    alert(e);
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Pr&aacute;ctico 2</h1>
+    <form action="">
+        <p>Ciudad:</p>
+        <input type="text" id="inp_ciudad">
+        <p>Pa&iacute;s:</p>
+        <select id="inp_pais">
+            <option value="">Seleccione un pa&iacute;s</option>
+            <option value="uy">Uruguay</option>
+            <option value="ar">Argentina</option>
+        </select>
+        <p>Cantidad de d&iacute;as:</p>
+        <input type="text" id="inp_cantidad">
+        <p><input type="button" value="Consultar" id="btn_consultar"></p>
+    </form>
+    <div id="div_resultado"></div>
+</body>
+</html>

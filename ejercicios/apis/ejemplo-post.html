@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let x = 5;
+        // if(x == 5){
+        //     alert('es 5')
+        // }
+        // else{
+        //     alert('no es 5')
+        // }
+        // (x == 5)?alert('es 5!'):alert('no es 5!');
+
+        function mostrar_datos_login(datos){
+            alert(`Hola ${datos.usuario.nombre} ${datos.usuario.apellido}`);
+        }
+
+        function login(datos) {
+            let usr = 'x5@gmail.com';
+            let pwd = '123';
+            const url = 'https://ort-tddm.herokuapp.com/login';
+            datos = {
+                "usuario": usr,
+                "password":pwd
+            }
+            datos = JSON.stringify(datos);
+            fetch(url, {
+                    method: 'POST',
+                    body: datos,
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                    .then(respuesta => (respuesta.ok) ? respuesta.json() : respuesta.json().then(data => Promise.reject(data.error)))
+                    .then(data => mostrar_datos_login(data))
+                    .catch(mensaje => alert(mensaje))
+
+        }
+
+        window.onload = function () {
+            document.getElementById('btn_registrar').onclick = function () {
+                const url = 'https://ort-tddm.herokuapp.com/usuarios';
+                datos = {
+                    "password": "123",
+                    "email": "x5@gmail.com",
+                    "nombre": "xxxxx",
+                    "apellido": "Canosa",
+                    "sexo": "M"
+                };
+                datos = JSON.stringify(datos);
+                fetch(url, {
+                    method: 'POST',
+                    body: datos,
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                    .then(respuesta => (respuesta.ok) ? respuesta.json() : respuesta.json().then(data => Promise.reject(data.error)))
+                    .then(data => login(data))
+                    .catch(mensaje => alert(mensaje))
+                // (x == 5)?alert('es 5!'):alert('no es 5!');
+            }
+        }  
+    </script>
+</head>
+
+<body>
+    <input type="button" id="btn_registrar" value="Registrar">
+</body>
+
+</html>

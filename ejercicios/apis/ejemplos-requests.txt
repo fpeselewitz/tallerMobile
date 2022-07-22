@@ -1,0 +1,11 @@
+Práctico 1
+http://api.openweathermap.org/data/2.5/weather/?appid=e62b2530fdb5f4ba3559c07c8634e5c7&lang=es&units=metric&q=montevideo,uy
+
+Práctico 2
+http://api.openweathermap.org/data/2.5/forecast/daily/?appid=e62b2530fdb5f4ba3559c07c8634e5c7&lang=es&units=metric&q=montevideo,uy&cnt=3
+
+Práctico 3
+https://api.exchangerate-api.com/v4/latest/USD
+
+Práctico 4
+https://nominatim.openstreetmap.org/search?street=Cuareim 1451&city=Montevideo&country=Uruguay&format=json
