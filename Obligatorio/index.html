@@ -6,20 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeCrypto</title>
 
-    <!--CSS for maps-->
-    <link rel="stylesheet" href="./css/maps.css"
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
-    <!-- JS for maps - Make sure you put this AFTER Leaflet's CSS -->
-    <script src="./js/maps.js"
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
-    
-    <!--Ionic JS-->
-    <script src="./js/ionicLibrary.js"></script>
-    <script src="./js/ionicLibraryOldBrowsers.js"></script>
-    <!-- Ionic Styles-->
-    <link rel="stylesheet" href="./css/ionic.css" />
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
 
     <script type="module">
         import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
@@ -89,13 +86,31 @@
             </ion-header>
             <ion-content class="ion-padding">
 
+                <!--Nombre de Usuario-->
                 <ion-item>
                     <ion-label position="floating">Nombre de Usuario</ion-label>
-                    <ion-input placeholder="Ingrese nombre" id="inp_nombre"></ion-input>
+                    <ion-input placeholder="Ingrese nombre" id="inp_nombre_usuario"></ion-input>
                 </ion-item>
 
-                
+                <!--Departamento-->
 
+                  <ion-list>
+                    <ion-item>
+                      <ion-select id="select_departamento_registro"
+                      placeholder="Seleccione su departamento"></ion-select>
+                    </ion-item>
+                  </ion-list>
+
+                <!--Ciudad-->
+
+                <ion-list>
+                    <ion-item>
+                      <ion-select id="select_ciudad_registro" 
+                      placeholder="Seleccione su ciudad" disabled></ion-select>
+                    </ion-item>
+                  </ion-list>
+
+                <!--Password-->
                 <ion-item>
                     <ion-label position="floating">Contrase&ntilde;a</ion-label>
                     <ion-input type="password" placeholder="Ingrese contrase&ntilde;a" id="inp_password2"></ion-input>
@@ -127,6 +142,9 @@
             </ion-footer>
         </ion-page>
 
+        <script>
+   
+        </script>
 
 </body>
 

@@ -26,6 +26,59 @@ function login(data, router){
     router.push('/locales');
 }
 
+function actualizarPaginaRegistro(){
+
+    const url_deptos = 'https://crypto.develotion.com/departamentos.php';
+    fetch(url_deptos, {
+        method:'GET',
+        headers:{
+            "Content-type":"application/json"
+        }
+    }).then(respuesta => respuesta.json())
+    .then(data => actualizarDesplegableDepartamentos(data.departamentos))
+
+}
+
+function actualizarDesplegableDepartamentos(data){
+
+    let lista_deptos = document.getElementById('select_departamento_registro');
+    let item = '';
+    data.forEach(function(departamento){
+        item = `<ion-select-option value="${departamento.id}">
+        ${departamento.nombre}</ion-select-option>`;
+      lista_deptos.innerHTML += item;
+    })
+
+}
+
+function actualizarDesplegableCiudades(data, id_depto){
+
+    let lista_deptos = document.getElementById('select_ciudad_registro');
+    let item = '';
+    data.forEach(function(ciudad){
+        if(id_depto == ciudad.id_departamento)
+        {
+            item = `<ion-select-option value="${ciudad.id}">
+            ${ciudad.nombre}</ion-select-option>`;
+            lista_deptos.innerHTML += item;
+        }
+    })
+}
+
+function actualizarCiudades(id_depto){
+
+    const url = 'https://crypto.develotion.com/ciudades.php';
+    fetch(url, {
+        method:'GET',
+        headers:{
+            "Content-type":"application/json"
+        }
+    }).then(respuesta => respuesta.json())
+    .then(data => actualizarDesplegableCiudades(data.ciudades, id_depto))
+
+}
+
+
 document.addEventListener('DOMContentLoaded', function(){
     let router = document.querySelector('ion-router');
     router.addEventListener('ionRouteDidChange', function(e){
@@ -39,39 +92,62 @@ document.addEventListener('DOMContentLoaded', function(){
         let pagina = document.getElementById(id_pagina);
         pagina.style.visibility = "visible";
 
-        if(nav.to == '/locales'){
-            listar_locales();
+        if(nav.to == '/registro'){
+            actualizarPaginaRegistro();
         }
-        if(nav.to == '/local'){
-            info_local();
-        }
+
     });
 
+    let lista_deptos = document.querySelector('#select_departamento_registro');
+    lista_deptos.addEventListener('ionChange', e => {
+
+        if(e.detail.value){
+
+            console.log('reconoce el cambio y debe actualizar con ' + e.detail.value);
+            let lista_ciudades = document.querySelector('#select_ciudad_registro');
+            lista_ciudades.innerHTML ='';
+            lista_ciudades.disabled = false;
+            actualizarCiudades(e.detail.value);
+        }
+
+    })
+   
+    
     document.getElementById('btn_registro').onclick = function(){
         try{
-            const nombre = document.getElementById('inp_nombre').value;
-            const apellido = document.getElementById('inp_apellido').value;
-            const email = document.getElementById('inp_email').value;
-            const sexo = document.getElementById('inp_sexo').value;
+            const nombre_usuario = document.getElementById('inp_nombre_usuario').value;
+            const id_ciudad = document.getElementById('select_ciudad_registro').value;
+            const id_depto = document.getElementById('select_departamento_registro').value;
             const password = document.getElementById('inp_password2').value;
             const repassword = document.getElementById('inp_repassword').value;
+
+            console.log(nombre_usuario);
+            console.log(id_ciudad);
+            console.log(id_depto);
+            console.log(password);
+            console.log(repassword);
+
             
-            if(!nombre){
+            if(!nombre_usuario){
                 throw 'Nombre requerido para continuar';
             }
             if(password != repassword){
                 throw 'Contrase&ntilde;a y repetici&oacute;n no coinciden';
             }
-            // otras validaciones...
+            if(!id_depto){
+                throw 'Debe indicar un departamento'
+            }
+            if(!id_ciudad){
+                throw 'Debe indicar una ciudad'
+            }
 
             //post a API registro de usuario
-            const url = 'https://ort-tddm.herokuapp.com/usuarios';
+            const url = 'https://crypto.develotion.com/usuarios.php';
             const datos = {
-                "password": password,
-                "email": email,
-                "nombre": nombre,
-                "apellido": apellido,
-                "sexo":sexo
+                "usuario": nombre_usuario,
+                "password":password,
+                "idDepartamento":id_depto,
+                "idCiudad": id_ciudad
             }
             fetch(url, {
                 method:'POST',
