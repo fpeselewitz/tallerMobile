@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function () {
+            document.getElementById('btn_registrar').onclick = function () {
+                let sex = document.querySelector('input[name="sex"]:checked').value;
+                let nom = document.getElementById('nom').value;
+                let ape = document.getElementById('ape').value;
+                let ema = document.getElementById('ema').value;
+                let pwd = document.getElementById('pwd').value;
+                const url = 'https://ort-tddm.herokuapp.com/usuarios';
+                datos = {
+                    "password": pwd,
+                    "email": ema,
+                    "nombre": nom,
+                    "apellido": ape,
+                    "sexo": sex
+                }
+                datos = JSON.stringify(datos);
+                fetch(url, {
+                    method: 'POST',
+                    body: datos,
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                .then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.error)))
+                .then(data => document.getElementById('mensaje').innerHTML = `Hola ${data.nombre} ${data.apellido} te registraste ok`)
+                .catch(mensaje => document.getElementById('mensaje').innerHTML = mensaje)
+            }
+        }
+    </script>
+</head>
+<body>
+    <p><input type="text" id="nom" placeholder="Ingresa tu nombre"></p>
+    <p><input type="text" id="ape" placeholder="Ingresa tu apellido"></p>
+    <p><input type="radio" id="sex" name="sex" value="M">Masculino <input type="radio" id="sex" name="sex" value="F">Femenino</p>
+    <p><input type="text" id="ema" placeholder="Ingresa tu email"></p>
+    <p><input type="password" id="pwd" placeholder="Ingresa tu contrase&ntilde;a"></p>
+    <input type="button" value="Registrar" id="btn_registrar">
+    <a href="ejemplo-login.html">Login</a>
+    <p id="mensaje"></p>   
+</body>
+</html>

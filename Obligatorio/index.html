@@ -1,0 +1,133 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeCrypto</title>
+
+    <!--CSS for maps-->
+    <link rel="stylesheet" href="./css/maps.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <!-- JS for maps - Make sure you put this AFTER Leaflet's CSS -->
+    <script src="./js/maps.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    
+    <!--Ionic JS-->
+    <script src="./js/ionicLibrary.js"></script>
+    <script src="./js/ionicLibraryOldBrowsers.js"></script>
+    <!-- Ionic Styles-->
+    <link rel="stylesheet" href="./css/ionic.css" />
+
+    <script type="module">
+        import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+        window.toastController = toastController;
+    </script>
+
+    <!--App Script and Styles-->
+    <script src="./js/app.js"></script>
+    <link rel="stylesheet" href="./css/styles.css">
+
+</head>
+
+<body>
+
+    <ion-app>
+
+        <!--Router y Nav-->
+        <ion-router>
+            <ion-route url="/registro" component="pagina-registro"></ion-route>
+            <ion-route url="/" component="pagina-login"></ion-route>
+        </ion-router>
+        <ion-nav root="pagina-login"></ion-nav>
+
+        <!-- Pagina Login -->
+        <ion-page class="ion-page" id="pagina-login">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Login</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-item>
+                    <ion-label position="floating">Usuario</ion-label>
+                    <ion-input placeholder="Ingrese usuario" id="login_usuario"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Contrase&ntilde;a</ion-label>
+                    <ion-input type="password" placeholder="Ingrese contrase&ntilde;a" id="login_password"></ion-input>
+                </ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button expand="block" id="btn_login">Login</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            No tiene cuenta? <ion-router-link href="/registro">Registrarse aqu&iacute;</ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
+
+        <!-- Pagina Registro -->
+        <ion-page class="ion-page" id="pagina-registro">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Registro</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+
+                <ion-item>
+                    <ion-label position="floating">Nombre de Usuario</ion-label>
+                    <ion-input placeholder="Ingrese nombre" id="inp_nombre"></ion-input>
+                </ion-item>
+
+                
+
+                <ion-item>
+                    <ion-label position="floating">Contrase&ntilde;a</ion-label>
+                    <ion-input type="password" placeholder="Ingrese contrase&ntilde;a" id="inp_password2"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="floating">Repetir Contrase&ntilde;a</ion-label>
+                    <ion-input type="password" placeholder="Ingrese repetici&oacute;n" id="inp_repassword"></ion-input>
+                </ion-item>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button color="primary" expand="block" id="btn_registro">Registrarse</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            Ya tiene cuenta? <ion-router-link href="/" class="underline">Ingresar aqu&iacute;
+                            </ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
+
+</body>
+
+</html>
