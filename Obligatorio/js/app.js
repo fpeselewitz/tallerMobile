@@ -39,10 +39,7 @@ function actualizarMonedas(){
             "Content-type":"application/json",
         }
     }).then(respuesta => respuesta.json())
-    .then(data => {
-        console.log(data.monedas);
-        listarMonedas(data.monedas);
-    })
+    .then(data => listarMonedas(data.monedas))
 
 }
 
