@@ -28,6 +28,22 @@
     window.menuController = menuController;
     </script>
 
+    <script>
+    function openFirst() {
+      menuController.enable(true, 'first');
+      menuController.open('first');
+    }
+    
+    function openEnd() {
+      menuController.open('end');
+    }
+    
+    function openCustom() {
+      menuController.enable(true, 'custom');
+      menuController.open('custom');
+    }
+    </script>
+
     <!--App Script and Styles-->
     <script src="./js/app.js"></script>
     <link rel="stylesheet" href="./css/styles.css">
@@ -45,6 +61,7 @@
             <ion-route url="/registro" component="pagina-registro"></ion-route>
             <ion-route url="/" component="pagina-login"></ion-route>
             <ion-route url="/monedas" component="pagina-monedas"></ion-route>
+            <ion-route url="/transacciones" component="pagina-transacciones"></ion-route>
         </ion-router>
         <ion-nav root="pagina-login"></ion-nav>
 
@@ -65,13 +82,15 @@
                 </ion-item>
                 <ion-item>
                   <ion-icon name="card-outline" slot="start"></ion-icon>
-                  <ion-label>Transacciones</ion-label>
+                  <ion-label>
+                    <ion-router-link href="/transacciones">Transacciones</ion-router-link>
+                  </ion-label>
                 </ion-item>
               </ion-list>
             </ion-content>
           </ion-menu>
 
-          <div class="ion-page" id="main-content">
+          <ion-page class="ion-page" id="main-content">
             <ion-header>
               <ion-toolbar>
                 <ion-buttons slot="start">
@@ -83,7 +102,7 @@
             <ion-content class="ion-padding">
               <ion-button expand="block" onclick="openMenu()">Open Menu</ion-button>
             </ion-content>
-          </div>
+        </ion-page>
 
         <!-- Pagina Login -->
         <ion-page class="ion-page" id="pagina-login">
@@ -209,6 +228,27 @@
                 </ion-toolbar>
             </ion-footer>
         </ion-page>
+
+        <!--Pantalla Transacciones-->
+
+               <ion-page class="ion-page" id="pagina-transacciones">
+                <ion-header>
+                    <ion-toolbar>
+                        <ion-buttons slot="start">
+                            <ion-menu-button></ion-menu-button>
+                        </ion-buttons>
+              
+                        <ion-title class="ion-text-center">Transacciones <strong>Crypto</strong></ion-title>
+                    </ion-toolbar>
+                </ion-header>
+                <ion-content class="ion-padding">
+                </ion-content>
+                <ion-footer>
+                    <ion-toolbar>
+                        <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                    </ion-toolbar>
+                </ion-footer>
+            </ion-page>
 
  
 

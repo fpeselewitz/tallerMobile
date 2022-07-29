@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     });
 
+
     let lista_deptos = document.querySelector('#select_departamento_registro');
     lista_deptos.addEventListener('ionChange', e => {
 
@@ -192,13 +193,6 @@ document.addEventListener('DOMContentLoaded', function(){
             const id_depto = document.getElementById('select_departamento_registro').value;
             const password = document.getElementById('inp_password2').value;
             const repassword = document.getElementById('inp_repassword').value;
-
-            console.log(nombre_usuario);
-            console.log(id_ciudad);
-            console.log(id_depto);
-            console.log(password);
-            console.log(repassword);
-
             
             if(!nombre_usuario){
                 throw 'Nombre requerido para continuar';
