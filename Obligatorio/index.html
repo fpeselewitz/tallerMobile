@@ -27,28 +27,9 @@
     window.menuController = menuController;
     </script>
 
-    <script>
-    function openFirst() {
-      menuController.enable(true, 'first');
-      menuController.open('first');
-    }
-    
-    function openEnd() {
-      menuController.open('end');
-    }
-    
-    function openCustom() {
-      menuController.enable(true, 'custom');
-      menuController.open('custom');
-    }
-    </script>
-
     <!--App Script and Styles-->
     <script src="./js/app.js"></script>
     <link rel="stylesheet" href="./css/styles.css">
-
-
-
 </head>
 
 <body>
@@ -223,7 +204,7 @@
                   </ion-list>
                   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                     <ion-fab-button onclick="actualizarMonedas()">
-                      <ion-icon name="refresh-circle-outline"></ion-icon>
+                      <ion-icon name="refresh-outline"></ion-icon>
                     </ion-fab-button>
                   </ion-fab>
             </ion-content>

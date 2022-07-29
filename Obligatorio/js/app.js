@@ -37,6 +37,9 @@ async function cargando(message){
 
 function actualizarMonedas(){
 
+    let lista_monedas = document.getElementById('lista_monedas');
+    lista_monedas.innerHTML = '';
+
     cargando('Cargando monedas...').then((loading) => {
         loading.present();
 
