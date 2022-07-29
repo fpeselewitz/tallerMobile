@@ -22,15 +22,48 @@ function getParam(name, url = window.location.href) {
 
 function login(data, usuario, router){
     localStorage.setItem("token", data.apiKey);
-    localStorage.setItem("usuario", JSON.stringify(data))
-    localStorage.setItem("nombre_usuario", usuario)
-    router.push('/misPosiciones');
-    actualizarPosicionesUsuarioLoggeado();
+    localStorage.setItem("usuario", JSON.stringify(data));
+    localStorage.setItem("nombre_usuario", usuario);
+    router.push('/monedas');
+  
 }
 
-function actualizarPosicionesUsuarioLoggeado(){
-    const usuario = localStorage.getItem("nombre_usuario");
-    console.log(`Se deben listar las posiciones crypto del usuario ${usuario}`);
+function actualizarMonedas(){
+
+    const url = 'https://crypto.develotion.com/monedas.php';
+    const apiKey = localStorage.getItem('token');
+    fetch(url, {
+        method:'GET',
+        headers:{
+            "apikey": apiKey,
+            "Content-type":"application/json",
+        }
+    }).then(respuesta => respuesta.json())
+    .then(data => {
+        console.log(data.monedas);
+        listarMonedas(data.monedas);
+    })
+
+}
+
+function listarMonedas(data){
+
+    let lista_monedas = document.getElementById('lista_monedas');
+    lista_monedas.innerHTML = '';
+    let item = '';
+    data.forEach(function(moneda){
+        item = `<ion-item>
+        <ion-avatar slot="start">
+          <img src="https://crypto.develotion.com/imgs/${moneda.imagen}"/>
+        </ion-avatar>
+        <ion-label>
+          <h2><strong>${moneda.nombre}</strong></h2>
+          <h3>Cotización actual: ${moneda.cotizacion}</h3>
+        </ion-label>
+      </ion-item>`;
+      lista_monedas.innerHTML += item;
+    });
+    
 }
 
 function actualizarPaginaRegistro(){
@@ -129,6 +162,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if(nav.to == '/registro'){
             actualizarPaginaRegistro();
+        }
+
+        if(nav.to == '/monedas'){
+
+            actualizarMonedas();
+
         }
 
     });
