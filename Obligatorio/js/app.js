@@ -28,7 +28,17 @@ function login(data, usuario, router){
   
 }
 
+async function cargando(message){
+    const loading = await loadingController.create({
+        message: message,
+      });
+    return await loading;
+}
+
 function actualizarMonedas(){
+
+    cargando('Cargando monedas...').then((loading) => {
+        loading.present();
 
     const url = 'https://crypto.develotion.com/monedas.php';
     const apiKey = localStorage.getItem('token');
@@ -40,6 +50,8 @@ function actualizarMonedas(){
         }
     }).then(respuesta => respuesta.json())
     .then(data => listarMonedas(data.monedas))
+    .finally(() => loading.dismiss());
+    });
 
 }
 
@@ -149,6 +161,7 @@ function containsChars(string){
 document.addEventListener('DOMContentLoaded', function(){
     let router = document.querySelector('ion-router');
     router.addEventListener('ionRouteDidChange', function(e){
+        menuController.close();
         let nav = e.detail;
         let paginas = document.getElementsByTagName('ion-page');
         for(let i=0 ; i<paginas.length; i++){
