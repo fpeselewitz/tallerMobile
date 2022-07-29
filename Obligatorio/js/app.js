@@ -20,10 +20,17 @@ function getParam(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-function login(data, router){
-    sessionStorage.setItem("token", data.token);
-    sessionStorage.setItem("usuario", JSON.stringify(data.usuario))
-    router.push('/locales');
+function login(data, usuario, router){
+    localStorage.setItem("token", data.apiKey);
+    localStorage.setItem("usuario", JSON.stringify(data))
+    localStorage.setItem("nombre_usuario", usuario)
+    router.push('/misPosiciones');
+    actualizarPosicionesUsuarioLoggeado();
+}
+
+function actualizarPosicionesUsuarioLoggeado(){
+    const usuario = localStorage.getItem("nombre_usuario");
+    console.log(`Se deben listar las posiciones crypto del usuario ${usuario}`);
 }
 
 function actualizarPaginaRegistro(){
@@ -76,6 +83,34 @@ function actualizarCiudades(id_depto){
     }).then(respuesta => respuesta.json())
     .then(data => actualizarDesplegableCiudades(data.ciudades, id_depto))
 
+}
+
+function validarNombreUsuario(nombreUsuario){
+    return nombreUsuario.trim().length > 3 && containsChars(nombreUsuario);
+}
+
+function validarPassword(password){
+    return password.trim().length > 4 && containsNumbers(password) && containsChars(password);
+
+}
+
+function containsNumbers(string){
+
+    for(let i=0; i<string.length; i++){
+        let char = string[i];
+        if(!isNaN(char)) return true;
+    }
+    return false;
+
+}
+
+function containsChars(string){
+
+    for(let i=0; i<string.length; i++){
+        let char = string[i];
+        if(isNaN(char)) return true;
+    }
+    return false;
 }
 
 
@@ -131,14 +166,23 @@ document.addEventListener('DOMContentLoaded', function(){
             if(!nombre_usuario){
                 throw 'Nombre requerido para continuar';
             }
-            if(password != repassword){
-                throw 'Contrase&ntilde;a y repetici&oacute;n no coinciden';
+            if(!validarNombreUsuario(nombre_usuario)){
+                throw 'El nombre de usuario debe tener una longitud de al menos 4 caracteres y no puede ser unicamente numeros';
             }
             if(!id_depto){
-                throw 'Debe indicar un departamento'
+                throw 'Debe indicar un departamento';
             }
             if(!id_ciudad){
-                throw 'Debe indicar una ciudad'
+                throw 'Debe indicar una ciudad';
+            }
+            if(!password){
+                throw 'Debe ingresar una contraseña';
+            }
+            if(!validarPassword(password)){
+                throw 'La contraseña debe tener al menos 5 caracteres, y debe contener numeros y letras';
+            }
+            if(password != repassword){
+                throw 'Contrase&ntilde;a y repetici&oacute;n no coinciden';
             }
 
             //post a API registro de usuario
@@ -157,16 +201,18 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
             }).then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.error)))
             .then(data => router.push('/'))
-            .catch(mensaje => display_toast(mensaje,'Info','primary'))
+            .catch(mensaje => {display_toast(mensaje,'Info','primary');
+                                actualizarPaginaRegistro();})
         }   
         catch(e){
             display_toast(e,'Info','primary');
+            actualizarPaginaRegistro();
         }
     }
 
     document.getElementById('btn_login').onclick = function(){
-        const usuario = document.getElementById('inp_usuario').value;
-        const password = document.getElementById('inp_password').value;
+        const usuario = document.getElementById('login_usuario').value;
+        const password = document.getElementById('login_password').value;
         try{
             if(!usuario){
                 throw 'Usuario requerido';
@@ -175,15 +221,15 @@ document.addEventListener('DOMContentLoaded', function(){
                 throw 'Contrase&ntilde;a requerida';
             }
             //invocar API de login de usuario.
-            const url = 'https://ort-tddm.herokuapp.com/login';
+            const url = 'https://crypto.develotion.com/login.php';
             fetch(url, {
                 method:'POST',
                 body: JSON.stringify({usuario:usuario,password:password}),
                 headers:{
                     "Content-type":"application/json"
                 }
-            }).then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.error)))
-            .then(data => login(data, router))
+            }).then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.mensaje)))
+            .then(data => login(data, usuario, router))
             .catch(mensaje => display_toast(mensaje,'No autorizado','primary'))
             
         }

@@ -37,6 +37,7 @@
         <ion-router>
             <ion-route url="/registro" component="pagina-registro"></ion-route>
             <ion-route url="/" component="pagina-login"></ion-route>
+            <ion-route url="/misPosiciones" component="pagina-mis-posiciones"></ion-route>
         </ion-router>
         <ion-nav root="pagina-login"></ion-nav>
 
@@ -142,9 +143,23 @@
             </ion-footer>
         </ion-page>
 
-        <script>
-   
-        </script>
+        <!--Pantalla principal usuario Loggeado-->
+
+        <ion-page class="ion-page" id="pagina-mis-posiciones">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Mis posiciones <strong>Crypto</strong></ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
 
 </body>
 
