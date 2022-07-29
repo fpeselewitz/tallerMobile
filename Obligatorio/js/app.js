@@ -63,6 +63,8 @@ function listarMonedas(data){
     
 }
 
+
+
 function actualizarPaginaRegistro(){
 
     const url_deptos = 'https://crypto.develotion.com/departamentos.php';
@@ -182,8 +184,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
     })
-   
-    
+  
     document.getElementById('btn_registro').onclick = function(){
         try{
             const nombre_usuario = document.getElementById('inp_nombre_usuario').value;
