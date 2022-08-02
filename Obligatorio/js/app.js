@@ -1,4 +1,6 @@
 var map;
+var monedas_actualizadas = [];
+
 function display_toast(mensaje, header, color){
     const toast = document.createElement('ion-toast');
     toast.header = header;
@@ -9,6 +11,17 @@ function display_toast(mensaje, header, color){
     toast.color = color;
     document.body.appendChild(toast);
     toast.present();
+}
+
+function resetearForms(){
+    console.log('entra a la funcion');
+    let inputs = document.querySelectorAll('ion-input');
+    inputs.forEach(input => {
+        input.value = '';});
+
+    let selects = document.querySelectorAll('ion-select');
+    selects.forEach(select => {
+        select.value = '';});
 }
 
 function getParam(name, url = window.location.href) {
@@ -35,6 +48,8 @@ async function cargando(message){
     return await loading;
 }
 
+
+
 function actualizarMonedas(){
 
     let lista_monedas = document.getElementById('lista_monedas');
@@ -52,7 +67,10 @@ function actualizarMonedas(){
             "Content-type":"application/json",
         }
     }).then(respuesta => respuesta.json())
-    .then(data => listarMonedas(data.monedas))
+    .then(data => { monedas_actualizadas=[];
+                    monedas_actualizadas= data.monedas;
+                    console.log(monedas_actualizadas);
+                    listarMonedas(monedas_actualizadas);})
     .finally(() => loading.dismiss());
     });
 
@@ -75,7 +93,20 @@ function listarMonedas(data){
       </ion-item>`;
       lista_monedas.innerHTML += item;
     });
-    
+
+}
+
+function listarMonedasTransacciones(){
+
+    let lista_monedas_transac = document.getElementById('select_moneda_transaccion');
+    lista_monedas_transac.innerHTML = '';
+    let item_moneda = '';
+    monedas_actualizadas.forEach(function(moneda){
+        item_moneda = `<ion-select-option value="${moneda.id}">
+        ${moneda.nombre} - $${moneda.cotizacion}</ion-select-option>`;
+      lista_monedas_transac.innerHTML += item_moneda;
+    })
+
 }
 
 
@@ -160,6 +191,12 @@ function containsChars(string){
     return false;
 }
 
+function resultadoTransaccion(data){
+    resetearForms();
+    const mensaje = `${data.mensaje}.<br/> Codigo de la transaccion: ${data.idTransaccion}`;
+    display_toast(mensaje, 'Confirmacion', 'success')
+}
+
 
 document.addEventListener('DOMContentLoaded', function(){
     let router = document.querySelector('ion-router');
@@ -177,12 +214,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if(nav.to == '/registro'){
             actualizarPaginaRegistro();
+            resetearForms();
         }
 
         if(nav.to == '/monedas'){
-
             actualizarMonedas();
+        }
 
+        if(nav.to == '/transacciones'){
+            listarMonedasTransacciones();
+            resetearForms();
         }
 
     });
@@ -283,5 +324,73 @@ document.addEventListener('DOMContentLoaded', function(){
         catch(e){
             display_toast(e,'Info','primary');
         }
+    }
+
+    document.getElementById('btn_transaccion').onclick = function(){
+        const tipo_transaccion = document.getElementById('select_tipo_transaccion').value;
+        const id_moneda = document.getElementById('select_moneda_transaccion').value;
+        const cantidad = Number(document.getElementById('inp_cantidad_transaccion').value);
+        const usuario = localStorage.getItem("usuario");
+        usuarioObj = JSON.parse(usuario);
+        const id_usuario = usuarioObj.id;
+
+        try{
+            if(!tipo_transaccion){
+                throw 'Ingrese tipo de transaccion';
+            }
+            if(!id_moneda){
+                throw 'Ingrese moneda';
+            }
+            if(!cantidad){
+                throw 'Ingrese cantidad'
+            }
+            if(!Number.isInteger(cantidad) || cantidad < 1){
+                throw 'La cantidad debe ser un entero positivo'
+            }
+            //obtener moneda del array
+            const moneda = monedas_actualizadas.filter(moneda => moneda.id == id_moneda);
+            const cotizacion = moneda[0].cotizacion;
+
+            cargando('Procesando transaccion...').then((loading) => {
+                loading.present();
+
+            //invocar API de login de usuario.
+            const url = 'https://crypto.develotion.com/transacciones.php';
+            const apiKey = localStorage.getItem('token');
+            const datos = {
+
+                "idUsuario": id_usuario,
+                "tipoOperacion": tipo_transaccion,
+                "moneda": id_moneda,
+                "cantidad": cantidad,
+                "valorActual": cotizacion
+                
+            }
+            fetch(url, {
+                method:'POST',
+                body: JSON.stringify(datos),
+                headers:{
+                    "apikey": apiKey,
+                    "Content-type":"application/json",
+                }
+            }).then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.mensaje)))
+            .then(data => resultadoTransaccion(data))
+            .catch(mensaje => display_toast(mensaje,'No autorizado','primary')).finally(() => loading.dismiss());
+        });
+            
+        }
+        catch(e){
+            display_toast(e,'Info','primary');
+        }
+
+
+
+
+ 
+
+
+
+
+
     }
 });
