@@ -1,5 +1,6 @@
 var map;
 var monedas_actualizadas = [];
+var transacciones_actualizadas = [];
 
 function display_toast(mensaje, header, color){
     const toast = document.createElement('ion-toast');
@@ -235,7 +236,11 @@ function actualizarTransacciones(){
             "Content-type":"application/json",
         }
     }).then(respuesta => respuesta.json())
-    .then(data => {listarTransacciones(data.transacciones)})
+    .then(data => {
+                    transacciones_actualizadas=[];
+                    transacciones_actualizadas= data.transacciones;
+                    listarTransacciones(transacciones_actualizadas);
+    })
     .finally(() => loading.dismiss());
     });
 
@@ -246,7 +251,7 @@ function tipoTransaccion(codigo){
     return 'Venta';
 }
 
-function listarTransacciones(data){
+function listarTransacciones(data, id_moneda = 0){
 
     let lista = document.getElementById('lista_mistransacciones');
     lista.innerHTML = '';
@@ -257,18 +262,24 @@ function listarTransacciones(data){
     const nombre_moneda = moneda[0].nombre;
     const tipo_transaccion = tipoTransaccion(transaccion.tipo_operacion)
     const monto_transaccion = Number(transaccion.cantidad) * Number(transaccion.valor_actual);
-
+    const id_moneda_transac = transaccion.moneda;
 
     item = `<ion-item>
-        <ion-label>
-          <h2><strong>${nombre_moneda}</strong></h2>
-          <h3><strong>Tipo de operacion: ${tipo_transaccion}</strong></h3>
-          <h3>Cantidad: ${transaccion.cantidad}</h3>
-          <h3>Precio transaccionado: $${transaccion.valor_actual}</h3>
-          <h3><strong>Monto total: $${monto_transaccion}</strong></h3>
-        </ion-label>
-      </ion-item>`;
-      lista.innerHTML += item;
+    <ion-label>
+      <h2><strong>${nombre_moneda}</strong></h2>
+      <h3><strong>Tipo de operacion: ${tipo_transaccion}</strong></h3>
+      <h3>Cantidad: ${transaccion.cantidad}</h3>
+      <h3>Precio transaccionado: $${transaccion.valor_actual}</h3>
+      <h3><strong>Monto total: $${monto_transaccion}</strong></h3>
+    </ion-label>
+    </ion-item>`;
+
+    if(id_moneda == 0){
+        lista.innerHTML += item;
+    }
+    else if(id_moneda == id_moneda_transac){
+        lista.innerHTML += item;
+    }
     });
 
 }
@@ -471,7 +482,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
     }
 
+    document.getElementById('btn_filtro_mistransacciones').onclick = function() {
+
+        const id_moneda = document.getElementById('select_moneda_mistransacciones').value;
+        console.log(id_moneda);
+        listarTransacciones(transacciones_actualizadas, id_moneda);
+
+    }
 
 
-    
+
+
 });
