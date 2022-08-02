@@ -109,6 +109,22 @@ function listarMonedasTransacciones(){
 
 }
 
+function listarMonedasMisTransacciones(){
+
+    let lista_monedas_transac = document.getElementById('select_moneda_mistransacciones');
+    lista_monedas_transac.innerHTML = '';
+    let item_moneda = '';
+    item_moneda = `<ion-select-option value="0">
+    Todas las monedas</ion-select-option>`;
+    lista_monedas_transac.innerHTML += item_moneda;
+    monedas_actualizadas.forEach(function(moneda){
+        item_moneda = `<ion-select-option value="${moneda.id}">
+        ${moneda.nombre}</ion-select-option>`;
+      lista_monedas_transac.innerHTML += item_moneda;
+    })
+
+}
+
 
 
 function actualizarPaginaRegistro(){
@@ -197,6 +213,66 @@ function resultadoTransaccion(data){
     display_toast(mensaje, 'Confirmacion', 'success')
 }
 
+function actualizarTransacciones(){
+
+    actualizarMonedas();
+
+    let lista = document.getElementById('lista_mistransacciones');
+    lista.innerHTML = '';
+
+    cargando('Cargando transacciones...').then((loading) => {
+        loading.present();
+
+    const usuario = localStorage.getItem("usuario");
+    usuarioObj = JSON.parse(usuario);
+    const id_usuario = usuarioObj.id;
+    const url = `https://crypto.develotion.com/transacciones.php?idUsuario=${id_usuario}`;
+    const apiKey = localStorage.getItem('token');
+    fetch(url, {
+        method:'GET',
+        headers:{
+            "apikey": apiKey,
+            "Content-type":"application/json",
+        }
+    }).then(respuesta => respuesta.json())
+    .then(data => {listarTransacciones(data.transacciones)})
+    .finally(() => loading.dismiss());
+    });
+
+}
+
+function tipoTransaccion(codigo){
+    if(codigo == 1) return 'Compra';
+    return 'Venta';
+}
+
+function listarTransacciones(data){
+
+    let lista = document.getElementById('lista_mistransacciones');
+    lista.innerHTML = '';
+    let item = '';
+    data.forEach(function(transaccion){
+
+    const moneda = monedas_actualizadas.filter(moneda => moneda.id == transaccion.moneda);
+    const nombre_moneda = moneda[0].nombre;
+    const tipo_transaccion = tipoTransaccion(transaccion.tipo_operacion)
+    const monto_transaccion = Number(transaccion.cantidad) * Number(transaccion.valor_actual);
+
+
+    item = `<ion-item>
+        <ion-label>
+          <h2><strong>${nombre_moneda}</strong></h2>
+          <h3><strong>Tipo de operacion: ${tipo_transaccion}</strong></h3>
+          <h3>Cantidad: ${transaccion.cantidad}</h3>
+          <h3>Precio transaccionado: $${transaccion.valor_actual}</h3>
+          <h3><strong>Monto total: $${monto_transaccion}</strong></h3>
+        </ion-label>
+      </ion-item>`;
+      lista.innerHTML += item;
+    });
+
+}
+
 
 document.addEventListener('DOMContentLoaded', function(){
     let router = document.querySelector('ion-router');
@@ -225,6 +301,16 @@ document.addEventListener('DOMContentLoaded', function(){
             listarMonedasTransacciones();
             resetearForms();
         }
+
+        if(nav.to == '/mistransacciones'){
+            listarMonedasMisTransacciones();
+            actualizarTransacciones();
+
+        }
+
+
+
+
 
     });
 
@@ -383,14 +469,9 @@ document.addEventListener('DOMContentLoaded', function(){
             display_toast(e,'Info','primary');
         }
 
-
-
-
- 
-
-
-
-
-
     }
+
+
+
+    
 });
