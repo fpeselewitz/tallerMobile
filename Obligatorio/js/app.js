@@ -482,15 +482,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
     }
 
-    document.getElementById('btn_filtro_mistransacciones').onclick = function() {
-
-        const id_moneda = document.getElementById('select_moneda_mistransacciones').value;
-        console.log(id_moneda);
-        listarTransacciones(transacciones_actualizadas, id_moneda);
-
-    }
-
-
+    let filtro_mistransacciones = document.querySelector('#select_moneda_mistransacciones');
+    filtro_mistransacciones.addEventListener('ionChange', e => {
+        if(e.detail.value){
+            const id_moneda = e.detail.value;
+            listarTransacciones(transacciones_actualizadas, id_moneda);
+        }
+    })
 
 
 });
