@@ -255,7 +255,6 @@ function tipoTransaccion(codigo){
 }
 
 function listarTransacciones(data, id_moneda = 0){
-
     let lista = document.getElementById('lista_mistransacciones');
     lista.innerHTML = '';
     let item = '';
