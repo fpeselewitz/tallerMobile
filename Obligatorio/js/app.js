@@ -1,6 +1,7 @@
 var map;
 var monedas_actualizadas = [];
 var transacciones_actualizadas = [];
+const dolar = 41;
 
 function display_toast(mensaje, header, color){
     const toast = document.createElement('ion-toast');
@@ -89,7 +90,7 @@ function listarMonedas(data){
         </ion-avatar>
         <ion-label>
           <h2><strong>${moneda.nombre}</strong></h2>
-          <h3>Cotización actual: ${moneda.cotizacion}</h3>
+          <h3>Cotización actual: USD ${moneda.cotizacion}</h3>
         </ion-label>
       </ion-item>`;
       lista_monedas.innerHTML += item;
@@ -104,7 +105,7 @@ function listarMonedasTransacciones(){
     let item_moneda = '';
     monedas_actualizadas.forEach(function(moneda){
         item_moneda = `<ion-select-option value="${moneda.id}">
-        ${moneda.nombre} - $${moneda.cotizacion}</ion-select-option>`;
+        ${moneda.nombre} - USD ${moneda.cotizacion}</ion-select-option>`;
       lista_monedas_transac.innerHTML += item_moneda;
     })
 
@@ -221,6 +222,9 @@ function actualizarTransacciones(){
     let lista = document.getElementById('lista_mistransacciones');
     lista.innerHTML = '';
 
+    let card = document.getElementById('card_totales');
+    card.innerHTML = '';
+
     cargando('Cargando transacciones...').then((loading) => {
         loading.present();
 
@@ -239,7 +243,8 @@ function actualizarTransacciones(){
     .then(data => {
                     transacciones_actualizadas=[];
                     transacciones_actualizadas= data.transacciones;
-                    listarTransacciones(transacciones_actualizadas);
+                    listarTransacciones(transacciones_actualizadas)
+                    mostrarTotalInvertido(transacciones_actualizadas);
     })
     .finally(() => loading.dismiss());
     });
@@ -253,6 +258,7 @@ function tipoTransaccion(codigo){
 
 function listarTransacciones(data, id_moneda = 0){
 
+    actualizarMonedas();
     let lista = document.getElementById('lista_mistransacciones');
     lista.innerHTML = '';
     let item = '';
@@ -269,8 +275,8 @@ function listarTransacciones(data, id_moneda = 0){
       <h2><strong>${nombre_moneda}</strong></h2>
       <h3><strong>Tipo de operacion: ${tipo_transaccion}</strong></h3>
       <h3>Cantidad: ${transaccion.cantidad}</h3>
-      <h3>Precio transaccionado: $${transaccion.valor_actual}</h3>
-      <h3><strong>Monto total: $${monto_transaccion}</strong></h3>
+      <h3>Precio transaccionado: USD ${transaccion.valor_actual}</h3>
+      <h3><strong>Monto total: USD ${monto_transaccion}</strong></h3>
     </ion-label>
     </ion-item>`;
 
@@ -282,6 +288,38 @@ function listarTransacciones(data, id_moneda = 0){
     }
     });
 
+}
+
+function mostrarTotalInvertido(data){
+    let total = 0;
+    data.forEach(function(transaccion){
+
+        const monto_transaccion = Number(transaccion.cantidad) * Number(transaccion.valor_actual) * dolar;
+        const tipo_transaccion = transaccion.tipo_operacion;
+
+        if(tipo_transaccion == 1){
+            total += monto_transaccion;
+        }
+        else if(tipo_transaccion == 2){
+            total -= monto_transaccion;
+        }
+    })
+
+    let card = document.getElementById('card_totales');
+    let color;
+    if(total >= 0) color = 'success';
+    if(total < 0) color = 'danger'
+
+    card.innerHTML = `<ion-card-header>
+      <ion-card-subtitle>MI TOTAL INVERTIDO</ion-card-subtitle>
+      <ion-card-title color="${color}">UYU ${total}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      El calculo se realiza sumando todas las compras y restando todas las ventas.
+      El valor se expresa en pesos uruguayos.
+    </ion-card-content>`
+
+   
 }
 
 
@@ -316,7 +354,10 @@ document.addEventListener('DOMContentLoaded', function(){
         if(nav.to == '/mistransacciones'){
             listarMonedasMisTransacciones();
             actualizarTransacciones();
+        }
 
+        if(nav.to == '/totales'){
+            actualizarTransacciones();
         }
 
 

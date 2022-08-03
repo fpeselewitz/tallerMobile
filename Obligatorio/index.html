@@ -43,51 +43,58 @@
             <ion-route url="/monedas" component="pagina-monedas"></ion-route>
             <ion-route url="/transacciones" component="pagina-transacciones"></ion-route>
             <ion-route url="/mistransacciones" component="pagina-mistransacciones"></ion-route>
+            <ion-route url="/totales" component="pagina-totales"></ion-route>
         </ion-router>
         <ion-nav root="pagina-login"></ion-nav>
 
         <!--Menu-->
         <ion-menu side="start" content-id="main-content">
             <ion-header>
-              <ion-toolbar translucent>
-                <ion-title>Menu</ion-title>
-              </ion-toolbar>
+                <ion-toolbar translucent>
+                    <ion-title>Menu</ion-title>
+                </ion-toolbar>
             </ion-header>
             <ion-content>
-              <ion-list>
-                <ion-item>
-                  <ion-icon name="logo-bitcoin" slot="start"></ion-icon>
-                  <ion-label>
-                    <ion-router-link href="/monedas">Monedas</ion-router-link>
-                  </ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-icon name="card-outline" slot="start"></ion-icon>
-                  <ion-label>
-                    <ion-router-link href="/transacciones">Comprar / Vender</ion-router-link>
-                  </ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-icon name="wallet-outline" slot="start"></ion-icon>
-                    <ion-label>
-                      <ion-router-link href="/mistransacciones">Mis Transacciones</ion-router-link>
-                    </ion-label>
-                  </ion-item>
-              </ion-list>
+                <ion-list>
+                    <ion-item>
+                        <ion-icon name="logo-bitcoin" slot="start"></ion-icon>
+                        <ion-label>
+                            <ion-router-link href="/monedas">Monedas</ion-router-link>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-icon name="card-outline" slot="start"></ion-icon>
+                        <ion-label>
+                            <ion-router-link href="/transacciones">Comprar / Vender</ion-router-link>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-icon name="wallet-outline" slot="start"></ion-icon>
+                        <ion-label>
+                            <ion-router-link href="/mistransacciones">Mis Transacciones</ion-router-link>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-icon name="cash-outline" slot="start"></ion-icon>
+                        <ion-label>
+                            <ion-router-link href="/totales">Total Invertido</ion-router-link>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
             </ion-content>
-          </ion-menu>
+        </ion-menu>
 
-          <ion-page class="ion-page" id="main-content">
+        <ion-page class="ion-page" id="main-content">
             <ion-header>
-              <ion-toolbar>
-                <ion-buttons slot="start">
-                  <ion-menu-button></ion-menu-button>
-                </ion-buttons>
-                <ion-title>Inbox</ion-title>
-              </ion-toolbar>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+                    <ion-title>Menu</ion-title>
+                </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding">
-              <ion-button expand="block" onclick="openMenu()">Open Menu</ion-button>
+                <ion-button expand="block" onclick="openMenu()">Open Menu</ion-button>
             </ion-content>
         </ion-page>
 
@@ -145,21 +152,21 @@
 
                 <!--Departamento-->
 
-                  <ion-list>
+                <ion-list>
                     <ion-item>
-                      <ion-select id="select_departamento_registro"
-                      placeholder="Seleccione su departamento"></ion-select>
+                        <ion-select id="select_departamento_registro" placeholder="Seleccione su departamento">
+                        </ion-select>
                     </ion-item>
-                  </ion-list>
+                </ion-list>
 
                 <!--Ciudad-->
 
                 <ion-list>
                     <ion-item>
-                      <ion-select id="select_ciudad_registro" 
-                      placeholder="Seleccione su ciudad" disabled></ion-select>
+                        <ion-select id="select_ciudad_registro" placeholder="Seleccione su ciudad" disabled>
+                        </ion-select>
                     </ion-item>
-                  </ion-list>
+                </ion-list>
 
                 <!--Password-->
                 <ion-item>
@@ -200,20 +207,20 @@
                 <ion-toolbar>
                     <ion-buttons slot="start">
                         <ion-menu-button></ion-menu-button>
-                      
+
                     </ion-buttons>
-          
+
                     <ion-title class="ion-text-center">Listado de Monedas <strong>Crypto</strong></ion-title>
                 </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding">
                 <ion-list id="lista_monedas">
-                  </ion-list>
-                  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                </ion-list>
+                <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                     <ion-fab-button onclick="actualizarMonedas()">
-                      <ion-icon name="refresh-outline"></ion-icon>
+                        <ion-icon name="refresh-outline"></ion-icon>
                     </ion-fab-button>
-                  </ion-fab>
+                </ion-fab>
             </ion-content>
             <ion-footer>
                 <ion-toolbar>
@@ -224,84 +231,52 @@
 
         <!--Pantalla Transacciones-->
 
-               <ion-page class="ion-page" id="pagina-transacciones">
-                <ion-header>
-                    <ion-toolbar>
-                        <ion-buttons slot="start">
-                            <ion-menu-button></ion-menu-button>
-                        </ion-buttons>
-                        <ion-title class="ion-text-center">Transacciones <strong>Crypto</strong></ion-title>
-                    </ion-toolbar>
-                </ion-header>
-                <ion-content class="ion-padding">
-                    <!--formulario para efectuar la transaccion-->
-
-                     <!--Tipo de transaccion-->
-
-                  <ion-list>
-                    <ion-item>
-                      <ion-select id="select_tipo_transaccion"
-                      placeholder="Seleccione el tipo">
-                      <ion-select-option value="1">Compra</ion-select-option>
-                      <ion-select-option value="2">Venta</ion-select-option>
-                    </ion-select>
-                    </ion-item>
-                  </ion-list>
-
-                    <!--Desplegable con monedas-->
-
-                    <ion-list>
-                        <ion-item>
-                          <ion-select id="select_moneda_transaccion"
-                          placeholder="Seleccione la moneda">
-                        </ion-select>
-                        </ion-item>
-                      </ion-list>
-
-                     <!--Cantidad-->
-                    <ion-item>
-                        <ion-label position="floating">Cantidad</ion-label>
-                        <ion-input type="number" placeholder="Ingrese cantidad" id="inp_cantidad_transaccion"></ion-input>
-                    </ion-item>
-
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col size="12">
-                                <ion-button color="primary" expand="block" id="btn_transaccion">Confirmar</ion-button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-
-                </ion-content>
-                <ion-footer>
-                    <ion-toolbar>
-                        <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
-                    </ion-toolbar>
-                </ion-footer>
-            </ion-page>
-
-               <!--Pantalla Mis Transacciones-->
-
-        <ion-page class="ion-page" id="pagina-mistransacciones">
+        <ion-page class="ion-page" id="pagina-transacciones">
             <ion-header>
                 <ion-toolbar>
                     <ion-buttons slot="start">
                         <ion-menu-button></ion-menu-button>
                     </ion-buttons>
-          
-                    <ion-title class="ion-text-center">Mis Transacciones <strong>Crypto</strong></ion-title>
+                    <ion-title class="ion-text-center">Transacciones <strong>Crypto</strong></ion-title>
                 </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding">
+                <!--formulario para efectuar la transaccion-->
+
+                <!--Tipo de transaccion-->
+
                 <ion-list>
                     <ion-item>
-                      <ion-select id="select_moneda_mistransacciones"
-                      placeholder="Seleccione la moneda">
-                    </ion-select>
+                        <ion-select id="select_tipo_transaccion" placeholder="Seleccione el tipo">
+                            <ion-select-option value="1">Compra</ion-select-option>
+                            <ion-select-option value="2">Venta</ion-select-option>
+                        </ion-select>
                     </ion-item>
-                  </ion-list>
-                <ion-list id="lista_mistransacciones">
-                  </ion-list>
+                </ion-list>
+
+                <!--Desplegable con monedas-->
+
+                <ion-list>
+                    <ion-item>
+                        <ion-select id="select_moneda_transaccion" placeholder="Seleccione la moneda">
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+
+                <!--Cantidad-->
+                <ion-item>
+                    <ion-label position="floating">Cantidad</ion-label>
+                    <ion-input type="number" placeholder="Ingrese cantidad" id="inp_cantidad_transaccion"></ion-input>
+                </ion-item>
+
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button color="primary" expand="block" id="btn_transaccion">Confirmar</ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
             </ion-content>
             <ion-footer>
                 <ion-toolbar>
@@ -310,8 +285,64 @@
             </ion-footer>
         </ion-page>
 
- 
+        <!--Pantalla Mis Transacciones-->
+
+        <ion-page class="ion-page" id="pagina-mistransacciones">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+
+                    <ion-title class="ion-text-center">Mis Transacciones <strong>Crypto</strong></ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-list>
+                    <ion-item>
+                        <ion-select id="select_moneda_mistransacciones" placeholder="Seleccione la moneda">
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+                <ion-list id="lista_mistransacciones">
+                </ion-list>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
+        <!--Pantalla Total Invertido-->
+
+        <ion-page class="ion-page" id="pagina-totales">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+
+                    <ion-title class="ion-text-center">Totales <strong>Crypto</strong></ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+
+                <ion-card id="card_totales">
+                  
+                  </ion-card>
+
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
+
 
 
 </body>
+
 </html>
