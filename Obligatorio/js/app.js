@@ -217,8 +217,6 @@ function resultadoTransaccion(data){
 
 function actualizarTransacciones(){
 
-    actualizarMonedas();
-
     let lista = document.getElementById('lista_mistransacciones');
     lista.innerHTML = '';
 
@@ -258,7 +256,6 @@ function tipoTransaccion(codigo){
 
 function listarTransacciones(data, id_moneda = 0){
 
-    actualizarMonedas();
     let lista = document.getElementById('lista_mistransacciones');
     lista.innerHTML = '';
     let item = '';
