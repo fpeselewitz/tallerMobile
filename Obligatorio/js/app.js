@@ -183,6 +183,8 @@ function actualizarCiudades(id_depto){
 
 function validarNombreUsuario(nombreUsuario){
     return nombreUsuario.trim().length > 3 && containsChars(nombreUsuario);
+
+    
 }
 
 function validarPassword(password){
