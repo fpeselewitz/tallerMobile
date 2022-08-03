@@ -44,6 +44,7 @@
             <ion-route url="/transacciones" component="pagina-transacciones"></ion-route>
             <ion-route url="/mistransacciones" component="pagina-mistransacciones"></ion-route>
             <ion-route url="/totales" component="pagina-totales"></ion-route>
+            <ion-route url="/comprasmonedas" component="pagina-comprasmonedas"></ion-route>
         </ion-router>
         <ion-nav root="pagina-login"></ion-nav>
 
@@ -78,6 +79,12 @@
                         <ion-icon name="cash-outline" slot="start"></ion-icon>
                         <ion-label>
                             <ion-router-link href="/totales">Total Invertido</ion-router-link>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-icon name="cash-outline" slot="start"></ion-icon>
+                        <ion-label>
+                            <ion-router-link href="/comprasmonedas">Compras por Moneda</ion-router-link>
                         </ion-label>
                     </ion-item>
                 </ion-list>
@@ -339,6 +346,29 @@
                 </ion-toolbar>
             </ion-footer>
         </ion-page>
+
+            <!--Pantalla Compras por Moneda-->
+
+            <ion-page class="ion-page" id="pagina-comprasmonedas">
+                <ion-header>
+                    <ion-toolbar>
+                        <ion-buttons slot="start">
+                            <ion-menu-button></ion-menu-button>
+                        </ion-buttons>
+    
+                        <ion-title class="ion-text-center">Mis Compras <strong>Crypto</strong></ion-title>
+                    </ion-toolbar>
+                </ion-header>
+                <ion-content class="ion-padding">
+                    <ion-list id="lista_comprasmonedas">
+                    </ion-list>
+                </ion-content>
+                <ion-footer>
+                    <ion-toolbar>
+                        <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                    </ion-toolbar>
+                </ion-footer>
+            </ion-page>
 
 
 

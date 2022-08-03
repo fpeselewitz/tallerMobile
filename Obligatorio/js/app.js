@@ -184,7 +184,7 @@ function actualizarCiudades(id_depto){
 function validarNombreUsuario(nombreUsuario){
     return nombreUsuario.trim().length > 3 && containsChars(nombreUsuario);
 
-    
+
 }
 
 function validarPassword(password){
@@ -225,6 +225,9 @@ function actualizarTransacciones(){
     let card = document.getElementById('card_totales');
     card.innerHTML = '';
 
+    let totales_monedas = document.getElementById('lista_comprasmonedas');
+    totales_monedas.innerHTML = '';
+
     cargando('Cargando transacciones...').then((loading) => {
         loading.present();
 
@@ -244,7 +247,8 @@ function actualizarTransacciones(){
                     transacciones_actualizadas=[];
                     transacciones_actualizadas= data.transacciones;
                     listarTransacciones(transacciones_actualizadas)
-                    mostrarTotalInvertido(transacciones_actualizadas);
+                    mostrarTotalInvertido(transacciones_actualizadas)
+                    listarCompras();
     })
     .finally(() => loading.dismiss());
     });
@@ -320,6 +324,40 @@ function mostrarTotalInvertido(data){
    
 }
 
+function totalCompras(id_moneda){
+    let total = 0;
+    const compras_moneda = transacciones_actualizadas.filter(transaccion => (transaccion.moneda == id_moneda
+        && transaccion.tipo_operacion == 1));
+
+    compras_moneda.forEach(function(compra){
+        total += Number(compra.cantidad) * Number(compra.valor_actual);
+
+    })
+
+    return total;
+}
+
+function listarCompras(){
+    let lista = document.getElementById('lista_comprasmonedas');
+    lista.innerHTML = '';
+    let item = '';
+    monedas_actualizadas.forEach(function(moneda){
+
+    const nombre_moneda = moneda.nombre;
+    const monto_compras = totalCompras(moneda.id) * dolar;
+
+    item = `<ion-item>
+    <ion-label>
+      <h2><strong>${nombre_moneda}</strong></h2>
+      <h2>Monto total en compras: UYU ${monto_compras}</h3>
+    </ion-label>
+    </ion-item>`;
+
+    lista.innerHTML += item;
+    });
+
+}
+
 
 document.addEventListener('DOMContentLoaded', function(){
     let router = document.querySelector('ion-router');
@@ -355,6 +393,10 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         if(nav.to == '/totales'){
+            actualizarTransacciones();
+        }
+
+        if(nav.to == '/comprasmonedas'){
             actualizarTransacciones();
         }
 
