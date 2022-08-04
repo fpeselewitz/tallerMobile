@@ -6,3 +6,5 @@
 .my-custom-menu {
     --width: 500px;
   }
+
+#map { height: 600px; }

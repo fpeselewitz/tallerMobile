@@ -1,0 +1,253 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Ionic lib -->
+    <script type="module" src="https://unpkg.com/@ionic/core@6.0.2//dist/ionic/ionic.esm.js"></script>
+    <!-- Ionic lib fallback for older browsers -->
+    <script nomodule src="https://unpkg.com/@ionic/core@6.0.2//dist/ionic/ionic.js"></script>
+    <!-- Ionic Styles-->
+    <link rel="stylesheet" href="https://unpkg.com/@ionic/core@latest/css/ionic.bundle.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script type="module">
+        import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+        window.toastController = toastController;
+        import { loadingController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+        window.loadingController = loadingController;
+    </script>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <ion-app>
+        <ion-router>
+            <ion-route url="/locales" component="pagina-locales"></ion-route>
+            <ion-route url="/registro" component="pagina-registro"></ion-route>
+            <ion-route url="/local" component="pagina-local"></ion-route>
+            <ion-route url="/" component="pagina-login"></ion-route>
+            <ion-route url="/usuarios" component="pagina-usuarios"></ion-route>
+            <ion-route url="/usuario" component="pagina-usuario"></ion-route>
+        </ion-router>
+        <ion-nav root="pagina-login"></ion-nav>
+        <!-- pagina login -->
+        <ion-page class="ion-page" id="pagina-login">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Login</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-item>
+                    <ion-label position="floating">Usuario</ion-label>
+                    <ion-input placeholder="Ingrese usuario" id="inp_usuario"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Contrase&ntilde;a</ion-label>
+                    <ion-input type="password" placeholder="Ingrese contrase&ntilde;a" id="inp_password"></ion-input>
+                </ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button expand="block" id="btn_login">Login</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            No tiene cuenta? <ion-router-link href="/registro">Registrarse aqu&iacute;</ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- pagina registro -->
+        <ion-page class="ion-page" id="pagina-registro">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Registro</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-item>
+                    <ion-label position="floating">Email</ion-label>
+                    <ion-input placeholder="Ingrese email" id="inp_email"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Nombre</ion-label>
+                    <ion-input placeholder="Ingrese nombre" id="inp_nombre"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Apellido</ion-label>
+                    <ion-input placeholder="Ingrese apellido" id="inp_apellido"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Sexo</ion-label>
+                    <ion-select id="inp_sexo">
+                        <ion-select-option value="F">Mujer</ion-select-option>
+                        <ion-select-option value="M">Hombre</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Contrase&ntilde;a</ion-label>
+                    <ion-input type="password" placeholder="Ingrese contrase&ntilde;a" id="inp_password2"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Repetir Contrase&ntilde;a</ion-label>
+                    <ion-input type="password" placeholder="Ingrese repetici&oacute;n" id="inp_repassword"></ion-input>
+                </ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button color="primary" expand="block" id="btn_registro">Registrarse</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            Ya tiene cuenta? <ion-router-link href="/" class="underline">Ingresar aqu&iacute;
+                            </ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- pagina listado de locales de comidas -->
+        <ion-page class="ion-page" id="pagina-locales">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Locales</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-list id="list_locales">
+                    <ion-list-header>
+                        <ion-label id="list_locales_header"></ion-label>
+                    </ion-list-header>
+                </ion-list>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- pagina detalle de local -->
+        <ion-page class="ion-page" id="pagina-local">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Local</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-card>
+                    <img src="" id="local_imagen" />
+                    <ion-card-header>
+                        <ion-card-subtitle id="local_servicios"></ion-card-subtitle>
+                        <ion-card-title id="local_titulo"></ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p id="local_horario"></p>
+                        <hr>
+                        <p id="local_telefono"></p>
+                        <hr>
+                        <p id="local_direccion"></p>
+                        <hr>
+                        <div id="map"></div>
+                        
+                    </ion-card-content>
+                    <!-- fab placed to the bottom and start and on the bottom edge of the content overlapping footer with a list to the right -->
+
+                </ion-card>
+                <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+                    <ion-fab-button color="dark">
+                      <ion-icon md="caret-up" ios="chevron-up-circle-outline"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-list side="top">
+                      <ion-fab-button color="light" id="link_facebook">
+                        <ion-icon name="logo-facebook"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="light">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="light">
+                        <ion-icon name="logo-vimeo"></ion-icon>
+                      </ion-fab-button>
+                      <ion-fab-button color="light">
+                        <ion-icon name="logo-google"></ion-icon>
+                      </ion-fab-button>
+                    </ion-fab-list>
+                  </ion-fab>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- pagina usuarios -->
+        <ion-page class="ion-page" id="pagina-usuarios">
+            <ion-header>
+                <ion-toolbar class="ion-text-center">
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+                    <ion-title>Usuarios</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-list id="list_usuarios">
+                </ion-list>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- info usuario -->
+        <ion-page class="ion-page" id="pagina-usuario">
+            <ion-header>
+                <ion-toolbar class="ion-text-center">
+                    <ion-title>Usuario</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-card>
+                    <img src="" id="usuario_imagen" />
+                    <ion-card-header>
+                        <ion-card-title id="usuario_titulo"></ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p id="usuario_email"></p>
+                        <hr>
+                    </ion-card-content>
+                </ion-card>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+    </ion-app>
+</body>
+
+</html>

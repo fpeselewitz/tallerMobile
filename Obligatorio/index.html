@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeCrypto</title>
 
+    <!--Maps-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
@@ -14,6 +15,7 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
+    <!--Ionic-->
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
@@ -45,6 +47,7 @@
             <ion-route url="/mistransacciones" component="pagina-mistransacciones"></ion-route>
             <ion-route url="/totales" component="pagina-totales"></ion-route>
             <ion-route url="/comprasmonedas" component="pagina-comprasmonedas"></ion-route>
+            <ion-route url="/usuariosdeptos" component="pagina-usuariosdeptos"></ion-route>
         </ion-router>
         <ion-nav root="pagina-login"></ion-nav>
 
@@ -85,6 +88,12 @@
                         <ion-icon name="cash-outline" slot="start"></ion-icon>
                         <ion-label>
                             <ion-router-link href="/comprasmonedas">Compras por Moneda</ion-router-link>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-icon name="location-outline" slot="start"></ion-icon>
+                        <ion-label>
+                            <ion-router-link href="/usuariosdeptos">Usuarios por Departamento</ion-router-link>
                         </ion-label>
                     </ion-item>
                 </ion-list>
@@ -336,8 +345,8 @@
             <ion-content class="ion-padding">
 
                 <ion-card id="card_totales">
-                  
-                  </ion-card>
+
+                </ion-card>
 
             </ion-content>
             <ion-footer>
@@ -347,28 +356,56 @@
             </ion-footer>
         </ion-page>
 
-            <!--Pantalla Compras por Moneda-->
+        <!--Pantalla Compras por Moneda-->
 
-            <ion-page class="ion-page" id="pagina-comprasmonedas">
-                <ion-header>
-                    <ion-toolbar>
-                        <ion-buttons slot="start">
-                            <ion-menu-button></ion-menu-button>
-                        </ion-buttons>
-    
-                        <ion-title class="ion-text-center">Mis Compras <strong>Crypto</strong></ion-title>
-                    </ion-toolbar>
-                </ion-header>
-                <ion-content class="ion-padding">
-                    <ion-list id="lista_comprasmonedas">
-                    </ion-list>
-                </ion-content>
-                <ion-footer>
-                    <ion-toolbar>
-                        <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
-                    </ion-toolbar>
-                </ion-footer>
-            </ion-page>
+        <ion-page class="ion-page" id="pagina-comprasmonedas">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+
+                    <ion-title class="ion-text-center">Mis Compras <strong>Crypto</strong></ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-list id="lista_comprasmonedas">
+                </ion-list>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
+        <!--Pantalla Usuarios por Departamento-->
+
+        <ion-page class="ion-page" id="pagina-usuariosdeptos">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="start">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+
+                    <ion-title class="ion-text-center">Usuarios URU <strong>Crypto</strong></ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+
+                <div id="map"></div>
+       
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">powered by TradeCrypto LLC</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+
+
+
+
 
 
 

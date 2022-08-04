@@ -1,6 +1,7 @@
 var map;
 var monedas_actualizadas = [];
 var transacciones_actualizadas = [];
+var departamentos_actualizados = [];
 const dolar = 41;
 
 function display_toast(mensaje, header, color){
@@ -129,7 +130,7 @@ function listarMonedasMisTransacciones(){
 
 
 
-function actualizarPaginaRegistro(){
+function actualizarDepartamentos(){
 
     const url_deptos = 'https://crypto.develotion.com/departamentos.php';
     fetch(url_deptos, {
@@ -138,7 +139,12 @@ function actualizarPaginaRegistro(){
             "Content-type":"application/json"
         }
     }).then(respuesta => respuesta.json())
-    .then(data => actualizarDesplegableDepartamentos(data.departamentos))
+    .then(data => {
+        departamentos_actualizados = [];
+        departamentos_actualizados = data.departamentos;
+        actualizarDesplegableDepartamentos(departamentos_actualizados);
+
+    })
 
 }
 
@@ -358,6 +364,74 @@ function listarCompras(){
 
 }
 
+function actualizarUsuariosDeptos(){
+
+    let mapa = document.getElementById('map');
+    mapa.innerHTML = '';
+
+    cargando('Cargando usuarios...').then((loading) => {
+        loading.present();
+
+    const url = `https://crypto.develotion.com/usuariosPorDepartamento.php`;
+    const apiKey = localStorage.getItem('token');
+    fetch(url, {
+        method:'GET',
+        headers:{
+            "apikey": apiKey,
+            "Content-type":"application/json",
+        }
+    }).then(respuesta => respuesta.json())
+    .then(data => {mostrarMapaUsuarios(asociarUsuariosDeptos(data.departamentos))})
+    .finally(() => loading.dismiss());
+    });
+}
+
+function asociarUsuariosDeptos(data){
+
+        let result = [];
+
+        data.forEach(function(u_depto){
+            const depto = departamentos_actualizados.filter(depto => depto.id === u_depto.id);
+            const depto_obj = depto[0];
+            const obj = {
+                nombre: depto_obj.nombre,
+                lat: depto_obj.latitud,
+                lon: depto_obj.longitud,
+                cantidad_de_usuarios: u_depto.cantidad_de_usuarios
+            }
+
+            result.push(obj);
+         
+        })
+        return result;
+}
+
+
+
+function mostrarMapaUsuarios(data){
+
+    if(map != undefined){
+        map.remove();
+    }
+
+    map = L.map('map').setView([data[3].lat, data[3].lon], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    data.forEach(function(depto){
+
+        L.marker([depto.lat, depto.lon]).addTo(map)
+            .bindPopup(`<strong>${depto.nombre}</strong><br/>
+            Usuarios registrados: ${depto.cantidad_de_usuarios}`);
+
+    })
+   
+}
+
+
+
 
 document.addEventListener('DOMContentLoaded', function(){
     let router = document.querySelector('ion-router');
@@ -374,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function(){
         pagina.style.visibility = "visible";
 
         if(nav.to == '/registro'){
-            actualizarPaginaRegistro();
+            actualizarDepartamentos();
             resetearForms();
         }
 
@@ -399,6 +473,12 @@ document.addEventListener('DOMContentLoaded', function(){
         if(nav.to == '/comprasmonedas'){
             actualizarTransacciones();
         }
+
+        if(nav.to == '/usuariosdeptos'){
+            actualizarDepartamentos();
+            actualizarUsuariosDeptos();
+        }
+
 
 
 
