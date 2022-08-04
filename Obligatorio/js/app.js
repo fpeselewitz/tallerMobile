@@ -5,11 +5,30 @@ var departamentos_actualizados = [];
 var usuarios_por_depto_actualizados = [];
 const dolar = 41;
 
-function logOut(router){
-    localStorage.clear();
-    resetearForms();
-    router.push('/');
-}
+
+async function logOut(router) {
+    const alert = document.createElement('ion-alert');
+    alert.header = 'Are you sure you want to log out?';
+    alert.buttons = [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {}
+      },
+      {
+        text: 'OK',
+        role: 'confirm',
+        handler: () => {localStorage.clear();
+                        resetearForms();
+                        router.push('/'); }
+      }
+    ];
+    document.body.appendChild(alert);
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+  }
+
+
 
 function display_toast(mensaje, header, color){
     const toast = document.createElement('ion-toast');
@@ -663,6 +682,10 @@ document.addEventListener('DOMContentLoaded', function(){
             listarTransacciones(transacciones_actualizadas, id_moneda);
         }
     })
+
+
+   
+    
 
 
 });
