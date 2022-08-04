@@ -146,6 +146,8 @@ function actualizarDepartamentos(){
 
     })
 
+    console.log(departamentos_actualizados);
+
 }
 
 function actualizarDesplegableDepartamentos(data){
@@ -457,11 +459,13 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         if(nav.to == '/transacciones'){
-            listarMonedasTransacciones();
             resetearForms();
+            listarMonedasTransacciones();
+        
         }
 
         if(nav.to == '/mistransacciones'){
+            resetearForms();
             listarMonedasMisTransacciones();
             actualizarTransacciones();
         }
