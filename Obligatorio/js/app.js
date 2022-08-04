@@ -2,7 +2,14 @@ var map;
 var monedas_actualizadas = [];
 var transacciones_actualizadas = [];
 var departamentos_actualizados = [];
+var usuarios_por_depto_actualizados = [];
 const dolar = 41;
+
+function logOut(router){
+    localStorage.clear();
+    resetearForms();
+    router.push('/');
+}
 
 function display_toast(mensaje, header, color){
     const toast = document.createElement('ion-toast');
@@ -37,11 +44,11 @@ function getParam(name, url = window.location.href) {
 }
 
 function login(data, usuario, router){
+
     localStorage.setItem("token", data.apiKey);
     localStorage.setItem("usuario", JSON.stringify(data));
     localStorage.setItem("nombre_usuario", usuario);
     router.push('/monedas');
-  
 }
 
 async function cargando(message){
@@ -132,6 +139,9 @@ function listarMonedasMisTransacciones(){
 
 function actualizarDepartamentos(){
 
+    let mapa = document.getElementById('map');
+    mapa.innerHTML = '';
+
     const url_deptos = 'https://crypto.develotion.com/departamentos.php';
     fetch(url_deptos, {
         method:'GET',
@@ -143,14 +153,12 @@ function actualizarDepartamentos(){
         departamentos_actualizados = [];
         departamentos_actualizados = data.departamentos;
         actualizarDesplegableDepartamentos(departamentos_actualizados);
-
     })
-
-    console.log(departamentos_actualizados);
-
 }
 
 function actualizarDesplegableDepartamentos(data){
+
+
 
     let lista_deptos = document.getElementById('select_departamento_registro');
     let item = '';
@@ -366,6 +374,8 @@ function listarCompras(){
 
 }
 
+
+
 function actualizarUsuariosDeptos(){
 
     let mapa = document.getElementById('map');
@@ -383,7 +393,10 @@ function actualizarUsuariosDeptos(){
             "Content-type":"application/json",
         }
     }).then(respuesta => respuesta.json())
-    .then(data => {mostrarMapaUsuarios(asociarUsuariosDeptos(data.departamentos))})
+    .then(data => { usuarios_por_depto_actualizados = [];
+                    usuarios_por_depto_actualizados = data.departamentos;
+                    mostrarMapaUsuarios(asociarUsuariosDeptos(usuarios_por_depto_actualizados));
+                    })
     .finally(() => loading.dismiss());
     });
 }
@@ -436,6 +449,7 @@ function mostrarMapaUsuarios(data){
 
 
 document.addEventListener('DOMContentLoaded', function(){
+
     let router = document.querySelector('ion-router');
     router.addEventListener('ionRouteDidChange', function(e){
         menuController.close();
@@ -461,7 +475,6 @@ document.addEventListener('DOMContentLoaded', function(){
         if(nav.to == '/transacciones'){
             resetearForms();
             listarMonedasTransacciones();
-        
         }
 
         if(nav.to == '/mistransacciones'){
@@ -482,14 +495,11 @@ document.addEventListener('DOMContentLoaded', function(){
             actualizarDepartamentos();
             actualizarUsuariosDeptos();
         }
-
-
-
-
-
-
     });
 
+    document.getElementById('btn_logout').onclick = function(){
+        logOut(router);
+    }
 
     let lista_deptos = document.querySelector('#select_departamento_registro');
     lista_deptos.addEventListener('ionChange', e => {
@@ -502,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function(){
             lista_ciudades.disabled = false;
             actualizarCiudades(e.detail.value);
         }
-
     })
   
     document.getElementById('btn_registro').onclick = function(){
