@@ -8,10 +8,10 @@ const dolar = 41;
 
 async function logOut(router) {
     const alert = document.createElement('ion-alert');
-    alert.header = 'Are you sure you want to log out?';
+    alert.header = 'Esta seguro que desea cerrar sesion?';
     alert.buttons = [
       {
-        text: 'Cancel',
+        text: 'Cancelar',
         role: 'cancel',
         handler: () => {}
       },
