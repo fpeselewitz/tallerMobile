@@ -5,6 +5,13 @@ var departamentos_actualizados = [];
 var usuarios_por_depto_actualizados = [];
 const dolar = 41;
 
+function redirectToLogin(router, mensaje){
+
+    router.push('/');
+    display_toast('Usuario registrado correctamente!', 'Confirmacion', 'success');
+
+}
+
 
 async function logOut(router) {
     const alert = document.createElement('ion-alert');
@@ -247,7 +254,7 @@ function containsChars(string){
 function resultadoTransaccion(data){
     resetearForms();
     const mensaje = `${data.mensaje}.<br/> Codigo de la transaccion: ${data.idTransaccion}`;
-    display_toast(mensaje, 'Confirmacion', 'success')
+    display_toast(mensaje, 'Confirmacion', 'success');
 }
 
 function actualizarTransacciones(){
@@ -574,7 +581,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     "Content-type":"application/json"
                 }
             }).then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.error)))
-            .then(data => router.push('/'))
+            .then(data => redirectToLogin(router))
             .catch(mensaje => {display_toast(mensaje,'Info','primary');
                                 actualizarPaginaRegistro();})
         }   
