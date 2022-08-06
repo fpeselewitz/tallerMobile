@@ -5,10 +5,9 @@ var departamentos_actualizados = [];
 var usuarios_por_depto_actualizados = [];
 const dolar = 41;
 
-function redirectToLogin(router, mensaje){
-
+function redirectToLogin(router, mensaje, titulo, color){
     router.push('/');
-    display_toast('Usuario registrado correctamente!', 'Confirmacion', 'success');
+    display_toast(mensaje, titulo, color);
 
 }
 
@@ -25,9 +24,9 @@ async function logOut(router) {
       {
         text: 'OK',
         role: 'confirm',
-        handler: () => {localStorage.clear();
-                        resetearForms();
-                        router.push('/'); }
+        handler: () => {resetearForms();
+                        router.push('/');
+                        localStorage.clear(); }
       }
     ];
     document.body.appendChild(alert);
@@ -487,6 +486,13 @@ document.addEventListener('DOMContentLoaded', function(){
         let pagina = document.getElementById(id_pagina);
         pagina.style.visibility = "visible";
 
+        const apiKey = localStorage.getItem('token')
+
+        if(!(nav.to == '/registro' || nav.to == '/') && !apiKey){
+            redirectToLogin(router, 'Debe autenticarse para proceder a la ruta seleccionada', 'Advertencia', 'danger');
+            return;
+        }
+
         if(nav.to == '/registro'){
             actualizarDepartamentos();
             resetearForms();
@@ -581,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     "Content-type":"application/json"
                 }
             }).then(respuesta => (respuesta.ok)?respuesta.json():respuesta.json().then(data => Promise.reject(data.error)))
-            .then(data => redirectToLogin(router))
+            .then(data => redirectToLogin(router, 'El usuario se ha creado correctamente!', 'Confirmacion', 'success'))
             .catch(mensaje => {display_toast(mensaje,'Info','primary');
                                 actualizarPaginaRegistro();})
         }   
