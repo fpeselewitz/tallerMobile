@@ -25,6 +25,10 @@ async function logOut(router) {
         text: 'OK',
         role: 'confirm',
         handler: () => {resetearForms();
+                        monedas_actualizadas = [];
+                        transacciones_actualizadas = [];
+                        departamentos_actualizados = [];
+                        usuarios_por_depto_actualizados = [];
                         router.push('/');
                         localStorage.clear(); }
       }
